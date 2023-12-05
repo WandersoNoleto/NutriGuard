@@ -13,7 +13,7 @@ class LoginPage extends StatelessWidget {
   final TextEditingController emailController    = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-   LoginPage({Key? key}) : super(key: key);
+  LoginPage({Key? key}) : super(key: key);
 
   void _loginUser(BuildContext context) async {
       print('E-mail: $emailController.text');
