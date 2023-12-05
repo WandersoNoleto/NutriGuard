@@ -22,17 +22,15 @@ class RegisterPage extends StatelessWidget {
       );
       print('E-mail: $emailController.text');
       print('Senha: $passwordController.text');
-      // Se necessário, adicione lógica adicional após o registro do usuário.
     } catch (e) {
       print('Error $e');
-      // Trate o erro, se necessário.
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false, // Evita o overflow ao abrir o teclado
+      resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(
@@ -92,9 +90,9 @@ class RegisterPage extends StatelessWidget {
                     focusColor: AppColors.white,
                   ),
                   style: TextStyle(
-                    color: AppColors.white, // Define a cor do texto digitado
+                    color: AppColors.white, 
                   ),
-                  cursorColor: AppColors.white, // Define a cor do cursor
+                  cursorColor: AppColors.white, 
                 ),
 
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02),
@@ -116,9 +114,9 @@ class RegisterPage extends StatelessWidget {
                     focusColor: AppColors.white,
                   ),
                   style: TextStyle(
-                    color: AppColors.white, // Define a cor do texto digitado
+                    color: AppColors.white, 
                   ),
-                  cursorColor: AppColors.white, // Define a cor do cursor
+                  cursorColor: AppColors.white,
                 ),
 
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02),
@@ -139,9 +137,9 @@ class RegisterPage extends StatelessWidget {
                     focusColor: AppColors.white,
                   ),
                   style: TextStyle(
-                    color: AppColors.white, // Define a cor do texto digitado
+                    color: AppColors.white, 
                   ),
-                  cursorColor: AppColors.white, // Define a cor do cursor
+                  cursorColor: AppColors.white,
                 ),
 
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02),
@@ -164,9 +162,9 @@ class RegisterPage extends StatelessWidget {
                     focusColor: AppColors.white,
                   ),
                   style: TextStyle(
-                    color: AppColors.white, // Define a cor do texto digitado
+                    color: AppColors.white, 
                   ),
-                  cursorColor: AppColors.white, // Define a cor do cursor
+                  cursorColor: AppColors.white,
                 ),
 
                 SizedBox(height: MediaQuery.of(context).size.height * 0.03),
