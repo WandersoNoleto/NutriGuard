@@ -39,6 +39,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.primaryGreen,
+        iconTheme: IconThemeData(color: AppColors.white),
         title: Row(
           children: [
             SizedBox(width: 8),

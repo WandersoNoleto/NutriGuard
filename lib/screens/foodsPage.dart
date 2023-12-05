@@ -58,7 +58,7 @@ class FoodInfoPage extends StatelessWidget {
               ),
             ),
           ),
-          // Conteúdo principal
+
           Expanded(
             child: ListView.builder(
               itemCount: 10,
