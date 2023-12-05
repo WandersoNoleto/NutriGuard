@@ -6,6 +6,8 @@ import 'package:nutri_guard/screens/foodsPage.dart';
 import 'package:nutri_guard/screens/profile.dart';
 
 class Navbar extends StatelessWidget {
+  const Navbar({super.key});
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -23,7 +25,7 @@ class Navbar extends StatelessWidget {
               // Navegar para a HomePage
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => HomePage()),
+                MaterialPageRoute(builder: (context) => const HomePage()),
               );
             },
           ),
@@ -33,7 +35,7 @@ class Navbar extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ProfilePage()),
+                MaterialPageRoute(builder: (context) => const ProfilePage()),
               );
             },
           ),
@@ -44,7 +46,7 @@ class Navbar extends StatelessWidget {
               // Navegar para a FoodHistoryPage
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => FoodInfoPage()),
+                MaterialPageRoute(builder: (context) => const FoodInfoPage()),
               );
             },
           ),

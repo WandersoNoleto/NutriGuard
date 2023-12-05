@@ -14,7 +14,7 @@ class PrescriptionHistoryPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.primaryGreen,
-        title: Center(
+        title: const Center(
           child: Text(
             'Histórico',
             style: TextStyle(
@@ -24,7 +24,7 @@ class PrescriptionHistoryPage extends StatelessWidget {
           ),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white), // Ícone em branco
+          icon: const Icon(Icons.arrow_back, color: Colors.white), // Ícone em branco
           onPressed: () {
             Navigator.pop(context);
           },
@@ -39,7 +39,7 @@ class PrescriptionHistoryPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Padding(
                   padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.01),
-                  child: PrescriptionItem(
+                  child: const PrescriptionItem(
                     date: '01/12/2023',
                     goal: 'Perda de Peso',
                   ),
@@ -49,7 +49,7 @@ class PrescriptionHistoryPage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: Navbar(),
+      bottomNavigationBar: const Navbar(),
     );
   }
 }

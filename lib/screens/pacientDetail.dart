@@ -18,7 +18,7 @@ class PacientDetailsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.primaryGreen,
-        title: Center(
+        title: const Center(
           child: Text(
             'Detalhes do Paciente',
             style: TextStyle(
@@ -28,7 +28,7 @@ class PacientDetailsPage extends StatelessWidget {
           ),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white), 
+          icon: const Icon(Icons.arrow_back, color: Colors.white), 
           onPressed: () {
             Navigator.pop(context);
           },
@@ -116,7 +116,7 @@ class PacientDetailsPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => PrescriptionHistoryPage(),
+                        builder: (context) => const PrescriptionHistoryPage(),
                       ),
                     );
                   },
@@ -127,7 +127,7 @@ class PacientDetailsPage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: Navbar(),
+      bottomNavigationBar: const Navbar(),
     );
   }
 }

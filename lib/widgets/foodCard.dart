@@ -28,7 +28,7 @@ class FoodInfoCard extends StatelessWidget {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 2,
             blurRadius: 4,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -41,24 +41,24 @@ class FoodInfoCard extends StatelessWidget {
             children: [
               Text(
                 name,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '$brand',
-                    style: TextStyle(
+                    brand,
+                    style: const TextStyle(
                       fontSize: 14,
                     ),
                   ),
                   Text(
                     'P: $protein G: $fat C: $carbohydrates',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                       color: AppColors.primaryGreen,
                     ),

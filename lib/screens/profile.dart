@@ -3,6 +3,8 @@ import 'package:nutri_guard/colors/colors.dart';
 import 'package:nutri_guard/widgets/navbar.dart';
 
 class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -11,16 +13,16 @@ class _ProfilePageState extends State<ProfilePage> {
   bool _isEditing = false;
 
   // Dados do perfil (substitua com seus próprios dados)
-  String _fullName = "John Doe";
-  String _phone = "(99) 99999-9999";
-  String _email = "john.doe@example.com";
-  String _crn = "123456";
+  final String _fullName = "John Doe";
+  final String _phone    = "(99) 99999-9999";
+  final String _email    = "john.doe@example.com";
+  final String _crn      = "123456";
 
   // Controladores para os campos de texto
-  TextEditingController _fullNameController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _crnController = TextEditingController();
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _crnController = TextEditingController();
 
   @override
   void initState() {
@@ -39,8 +41,8 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.primaryGreen,
-        iconTheme: IconThemeData(color: AppColors.white),
-        title: Row(
+        iconTheme: const IconThemeData(color: AppColors.white),
+        title: const Row(
           children: [
             SizedBox(width: 8),
             Text("Perfil", style: TextStyle(color: Colors.white)),
@@ -48,7 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.edit, color: Colors.white),
+            icon: const Icon(Icons.edit, color: Colors.white),
             onPressed: () {
               // Ativar ou desativar o modo de edição quando o ícone de lápis for clicado
               setState(() {
@@ -68,14 +70,14 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Center(
               child: CircleAvatar(
                 radius: screenHeight * 0.06,
-                child: Icon(Icons.person, size: screenHeight * 0.05, color: Colors.white),
                 backgroundColor: Colors.white,
+                child: Icon(Icons.person, size: screenHeight * 0.05, color: Colors.white),
               ),
             ),
           ),
           Expanded(
             child: SingleChildScrollView(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
                   _buildProfileField("Nome Completo", _fullNameController),
@@ -88,7 +90,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ],
       ),
-      bottomNavigationBar: Navbar(),
+      bottomNavigationBar: const Navbar(),
     );
   }
 
@@ -100,7 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
         enabled: _isEditing,
         decoration: InputDecoration(
           labelText: label,
-          border: OutlineInputBorder(),
+          border: const OutlineInputBorder(),
         ),
       ),
     );

@@ -15,7 +15,7 @@ class AddFoodPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.primaryGreen,
-        title: Center(
+        title: const Center(
           child: Text(
             'Adicionar Alimento',
             style: TextStyle(
@@ -25,7 +25,7 @@ class AddFoodPage extends StatelessWidget {
           ),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -39,25 +39,25 @@ class AddFoodPage extends StatelessWidget {
             child: Column(
               children: [
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Nome do Alimento'),
+                  decoration: const InputDecoration(labelText: 'Nome do Alimento'),
                 ),
                 SizedBox(height: screenHeight * 0.015),
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Marca (opcional)'),
+                  decoration: const InputDecoration(labelText: 'Marca (opcional)'),
                 ),
                 SizedBox(height: screenHeight * 0.015),
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Proteína (g)'),
+                  decoration: const InputDecoration(labelText: 'Proteína (g)'),
                   keyboardType: TextInputType.number,
                 ),
                 SizedBox(height: screenHeight * 0.015),
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Gordura (g)'),
+                  decoration: const InputDecoration(labelText: 'Gordura (g)'),
                   keyboardType: TextInputType.number,
                 ),
                 SizedBox(height: screenHeight * 0.015),
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Carboidratos (g)'),
+                  decoration: const InputDecoration(labelText: 'Carboidratos (g)'),
                   keyboardType: TextInputType.number,
                 ),
               ],
@@ -73,7 +73,7 @@ class AddFoodPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => FoodInfoPage(),
+                        builder: (context) => const FoodInfoPage(),
                       ),
                     );
                   },
@@ -82,7 +82,7 @@ class AddFoodPage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: Navbar(),
+      bottomNavigationBar: const Navbar(),
     );
   }
 }

@@ -12,7 +12,7 @@ class PrescriptionItem extends StatelessWidget {
     return Card(
       elevation: 5,
       child: ListTile(
-        leading: Icon(Icons.picture_as_pdf, color: AppColors.primaryGreen),
+        leading: const Icon(Icons.picture_as_pdf, color: AppColors.primaryGreen),
         title: Text(date),
         subtitle: Text(goal),
         onTap: () {

@@ -16,7 +16,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.primaryGreen,
-        title: Center(
+        title: const Center(
           child: Text(
             'Pacientes',
             style: TextStyle(
@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget {
           ),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white), // Ícone em branco
+          icon: const Icon(Icons.arrow_back, color: Colors.white), // Ícone em branco
           onPressed: () {
             Navigator.pop(context);
           },
@@ -37,7 +37,7 @@ class HomePage extends StatelessWidget {
 
           Padding(
             padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.02), // 5% da largura da tela
-            child: SearchBox(),
+            child: const SearchBox(),
           ),
 
           Expanded(
@@ -67,7 +67,7 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: Navbar(),
+      bottomNavigationBar: const Navbar(),
     );
   }
 }

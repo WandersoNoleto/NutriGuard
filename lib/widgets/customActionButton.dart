@@ -23,7 +23,11 @@ class ActionButton extends StatelessWidget {
         constraints: BoxConstraints(
           minWidth: screenWidth * 0.35, // Largura mínima desejada
         ),
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: AppColors.primaryGreen,
+          borderRadius: BorderRadius.circular(8),
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -33,20 +37,16 @@ class ActionButton extends StatelessWidget {
                 color: Colors.white,
                 size: 24,
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
             ],
             Text(
               label,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
               ),
             ),
           ],
-        ),
-        decoration: BoxDecoration(
-          color: AppColors.primaryGreen,
-          borderRadius: BorderRadius.circular(8),
         ),
       ),
     );

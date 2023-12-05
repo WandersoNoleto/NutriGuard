@@ -12,22 +12,22 @@ class FoodInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
+    double screenWidth  = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.primaryGreen,
-        title: Center(
+        title: const Center(
           child: Text(
             'Alimentos',
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.white, // Texto em branco
+              color: Colors.white, 
             ),
           ),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white), // Ícone em branco
+          icon: const Icon(Icons.arrow_back, color: Colors.white), // Ícone em branco
           onPressed: () {
             Navigator.pop(context);
           },
@@ -38,7 +38,7 @@ class FoodInfoPage extends StatelessWidget {
           // Caixa de pesquisa
           Padding(
             padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.01),
-            child: SearchBox(),
+            child: const SearchBox(),
           ),
            Align(
             alignment: Alignment.bottomRight,
@@ -51,7 +51,7 @@ class FoodInfoPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AddFoodPage(),
+                        builder: (context) => const AddFoodPage(),
                       ),
                     );
                   },
@@ -81,7 +81,7 @@ class FoodInfoPage extends StatelessWidget {
          
         ],
       ),
-      bottomNavigationBar: Navbar(),
+      bottomNavigationBar: const Navbar(),
     );
   }
 }
