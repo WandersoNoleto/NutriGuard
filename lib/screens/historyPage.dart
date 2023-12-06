@@ -19,12 +19,12 @@ class PrescriptionHistoryPage extends StatelessWidget {
             'Histórico',
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.white, // Texto em branco
+              color: Colors.white,
             ),
           ),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white), // Ícone em branco
+          icon: const Icon(Icons.arrow_back, color: Colors.white), 
           onPressed: () {
             Navigator.pop(context);
           },

@@ -3,17 +3,25 @@ import 'package:nutri_guard/colors/colors.dart';
 import 'package:nutri_guard/widgets/customActionButton.dart';
 import 'package:nutri_guard/widgets/navbar.dart';
 import 'package:nutri_guard/screens/historyPage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PacientDetailsPage extends StatelessWidget {
-  final String patientName;
+  final QueryDocumentSnapshot<Object?> pacientSnapshot;
 
-  // Construtor que recebe o nome do paciente
-  const PacientDetailsPage({Key? key, required this.patientName}) : super(key: key);
+  const PacientDetailsPage({Key? key, required this.pacientSnapshot}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    String patientName = pacientSnapshot['name'];
+    int age            = pacientSnapshot['age'];
+    double weight = pacientSnapshot['weight'];
+    double height = pacientSnapshot['height'];
+    String activityLevel = pacientSnapshot['activityLevel'];
+    String phoneNumber   = pacientSnapshot['phoneNumber'];
+
     double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
+    double screenWidth  = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -23,12 +31,12 @@ class PacientDetailsPage extends StatelessWidget {
             'Detalhes do Paciente',
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.white, // Texto em branco
+              color: Colors.white,
             ),
           ),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white), 
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -50,42 +58,41 @@ class PacientDetailsPage extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: AppColors.primaryGreen,
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(screenHeight * 0.015), 
-                        topRight: Radius.circular(screenHeight * 0.015), 
+                        topLeft: Radius.circular(screenHeight * 0.015),
+                        topRight: Radius.circular(screenHeight * 0.015),
                       ),
                     ),
-                    padding: EdgeInsets.all(screenHeight * 0.018), // 
+                    padding: EdgeInsets.all(screenHeight * 0.018),
                     child: Center(
                       child: Text(
                         patientName,
                         style: TextStyle(
-                          fontSize: screenHeight * 0.02, 
+                          fontSize: screenHeight * 0.02,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white, 
+                          color: Colors.white,
                         ),
                       ),
                     ),
                   ),
 
-                  // Parte abaixo da linha
-                  Padding(
+                  Container(
+                    width: double.infinity,
                     padding: EdgeInsets.all(screenHeight * 0.018),
+                    color: Colors.white, 
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: screenHeight * 0.009), 
-                        Text('Idade: 25', style: TextStyle(fontSize: screenHeight * 0.018, fontWeight: FontWeight.w400, color: AppColors.textColor)),
-                        SizedBox(height: screenHeight * 0.009), 
-                        Text('Peso: 70 kg', style: TextStyle(fontSize: screenHeight * 0.018, fontWeight: FontWeight.w400, color: AppColors.textColor)),
-                        SizedBox(height: screenHeight * 0.009), 
-                        Text('Altura: 1.75 m', style: TextStyle(fontSize: screenHeight * 0.018, fontWeight: FontWeight.w400, color: AppColors.textColor)),
-                        SizedBox(height: screenHeight * 0.009), 
-                        Text('Nível de Atividade Física: Moderado', style: TextStyle(fontSize: screenHeight * 0.018, fontWeight: FontWeight.w400, color: AppColors.textColor)),
-                        SizedBox(height: screenHeight * 0.009), 
-                        Text('Última Prescrição: 29/11/2023', style: TextStyle(fontSize: screenHeight * 0.018, fontWeight: FontWeight.w400, color: AppColors.textColor)),
-                        SizedBox(height: screenHeight * 0.009), 
-                        Text('Número: (99) 98437-2017', style: TextStyle(fontSize: screenHeight * 0.018, fontWeight: FontWeight.w400, color: AppColors.textColor)),
-                        SizedBox(height: screenHeight * 0.009), 
+                        SizedBox(height: screenHeight * 0.018),
+                        Text('Idade: $age anos', style: TextStyle(fontSize: screenHeight * 0.018, fontWeight: FontWeight.w400, color: AppColors.textColor)),
+                        SizedBox(height: screenHeight * 0.018),
+                        Text('Peso: $weight kg', style: TextStyle(fontSize: screenHeight * 0.018, fontWeight: FontWeight.w400, color: AppColors.textColor)),
+                        SizedBox(height: screenHeight * 0.018),
+                        Text('Altura: $height m', style: TextStyle(fontSize: screenHeight * 0.018, fontWeight: FontWeight.w400, color: AppColors.textColor)),
+                        SizedBox(height: screenHeight * 0.018),
+                        Text('Nível de Atividade Física: $activityLevel', style: TextStyle(fontSize: screenHeight * 0.018, fontWeight: FontWeight.w400, color: AppColors.textColor)),
+                        SizedBox(height: screenHeight * 0.018),
+                        Text('Número: $phoneNumber', style: TextStyle(fontSize: screenHeight * 0.018, fontWeight: FontWeight.w400, color: AppColors.textColor)),
+                        SizedBox(height: screenHeight * 0.018),
                       ],
                     ),
                   ),
@@ -107,7 +114,7 @@ class PacientDetailsPage extends StatelessWidget {
                   },
                 ),
               ),
-              SizedBox(height: screenHeight * 0.009), 
+              SizedBox(height: screenHeight * 0.018),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
                 child: ActionButton(
@@ -122,7 +129,7 @@ class PacientDetailsPage extends StatelessWidget {
                   },
                 ),
               ),
-              SizedBox(height: screenHeight * 0.018), 
+              SizedBox(height: screenHeight * 0.018),
             ],
           ),
         ],

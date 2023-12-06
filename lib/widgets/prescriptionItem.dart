@@ -10,13 +10,14 @@ class PrescriptionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: AppColors.white,
       elevation: 5,
       child: ListTile(
         leading: const Icon(Icons.picture_as_pdf, color: AppColors.primaryGreen),
         title: Text(date),
         subtitle: Text(goal),
         onTap: () {
-          // Adicione a lógica para abrir o PDF
+
         },
       ),
     );

@@ -32,6 +32,7 @@ class HomePage extends StatelessWidget {
             ),
           );
         } else {
+          String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
           String userName = snapshot.data ?? '';
 
           return Scaffold(
@@ -51,7 +52,7 @@ class HomePage extends StatelessWidget {
               children: [
                 SizedBox(height: screenHeight * 0.04),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.05), 
+                  margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -66,10 +67,10 @@ class HomePage extends StatelessWidget {
                       ActionButton(
                         label: 'Adicionar',
                         icon: Icons.add,
-                        width: screenWidth * 0.1, 
-                        height: screenHeight * 0.05, 
-                        onPressed: (){
-                           Navigator.push(
+                        width: screenWidth * 0.1,
+                        height: screenHeight * 0.05,
+                        onPressed: () {
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => AddPacientPage(),
@@ -85,26 +86,46 @@ class HomePage extends StatelessWidget {
                   child: const SearchBox(),
                 ),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PacientDetailsPage(patientName: 'Paciente $index'),
-                            ),
-                          );
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.01),
-                          child: PacientCard(
-                            name: 'Paciente $index',
-                            lastPrescption: '29/11/2023',
-                          ),
-                        ),
-                      );
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('pacients')
+                        .where('authUser', isEqualTo: userId)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Center(
+                          child: Text('Erro: ${snapshot.error}'),
+                        );
+                      } else {
+                        var listPacients = snapshot.data?.docs ?? [];
+                        return ListView.builder(
+                          itemCount: listPacients.length,
+                          itemBuilder: (context, index) {
+                            var pacient = listPacients[index];
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PacientDetailsPage(pacientSnapshot: pacient),
+                                  ),
+                                );
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.01),
+                                child: PacientCard(
+                                  name: pacient['name'],
+                                  lastPrescption: "00/00/0000",
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }
                     },
                   ),
                 ),
