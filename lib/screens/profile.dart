@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:nutri_guard/colors/colors.dart';
 import 'package:nutri_guard/widgets/navbar.dart';
+import 'package:nutri_guard/widgets/customActionButton.dart';
+import 'package:nutri_guard/screens/login.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  const ProfilePage({Key? key}) : super(key: key);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -11,12 +15,6 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   bool _isEditing = false;
-
-  // Dados do perfil (substitua com seus próprios dados)
-  final String _fullName = "John Doe";
-  final String _phone    = "(99) 99999-9999";
-  final String _email    = "john.doe@example.com";
-  final String _crn      = "123456";
 
   // Controladores para os campos de texto
   final TextEditingController _fullNameController = TextEditingController();
@@ -27,11 +25,44 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    // Inicializar os controladores com os dados do perfil
-    _fullNameController.text = _fullName;
-    _phoneController.text = _phone;
-    _emailController.text = _email;
-    _crnController.text = _crn;
+    // Inicializar os controladores com os dados do usuário
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    // Recuperar o usuário atualmente autenticado
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      // Usuário logado, agora recuperar os dados da coleção 'users'
+      DocumentSnapshot<Map<String, dynamic>> userDocument =
+          await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+
+      // Preencher os controladores com os dados recuperados
+      if (userDocument.exists) {
+        Map<String, dynamic> userData = userDocument.data()!;
+        _fullNameController.text = userData['fullName'] ?? '';
+        _phoneController.text = userData['phoneNumber'] ?? '';
+        _emailController.text = user.email ?? '';
+        _crnController.text = userData['crn'] ?? '';
+      }
+    }
+  }
+
+  Future<void> _saveUserData() async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      try {
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+          'fullName': _fullNameController.text,
+          'phoneNumber': _phoneController.text,
+          'crn': _crnController.text,
+        });
+      } catch (e) {
+        print('Error updating user data: $e');
+      }
+    }
   }
 
   @override
@@ -50,10 +81,12 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.edit, color: Colors.white),
+            icon: Icon(_isEditing ? Icons.save : Icons.edit, color: Colors.white),
             onPressed: () {
-              // Ativar ou desativar o modo de edição quando o ícone de lápis for clicado
               setState(() {
+                if (_isEditing) {
+                  _saveUserData(); // Salvar dados se estiver em modo de edição
+                }
                 _isEditing = !_isEditing;
               });
             },
@@ -83,7 +116,14 @@ class _ProfilePageState extends State<ProfilePage> {
                   _buildProfileField("Nome Completo", _fullNameController),
                   _buildProfileField("Telefone", _phoneController),
                   _buildProfileField("Email", _emailController),
-                  _buildProfileField("CRN", _crnController),
+                  _buildProfileField("CRN N° de inscrição", _crnController),
+                  SizedBox(height: 16),
+                  ActionButton(
+                    label: 'Sair',
+                    onPressed: () {
+                      _signOut(context);
+                    },
+                  ),
                 ],
               ),
             ),
@@ -106,5 +146,19 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
+  }
+
+  Future<void> _signOut(BuildContext context) async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoginPage(),
+        ),
+      );
+    } catch (e) {
+      print('Error signing out: $e');
+    }
   }
 }
