@@ -4,9 +4,9 @@ import 'package:nutri_guard/colors/colors.dart';
 class FoodInfoCard extends StatelessWidget {
   final String name;
   final String brand;
-  final int protein;
-  final int fat;
-  final int carbohydrates;
+  final dynamic protein;
+  final double fat;
+  final double carbohydrates;
 
   const FoodInfoCard({
     Key? key,
