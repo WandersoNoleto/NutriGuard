@@ -68,7 +68,6 @@ class _AddFoodPageState extends State<AddFoodPage> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          key: UniqueKey(), // Use UniqueKey para preservar o estado do widget
           children: [
             Padding(
               padding: EdgeInsets.all(screenHeight * 0.02),
@@ -76,14 +75,14 @@ class _AddFoodPageState extends State<AddFoodPage> {
                 children: [
                   TextFormField(
                     controller: nameController,
-                    decoration: const InputDecoration(labelText: 'Nome do Alimento',),
-                    keyboardType: TextInputType.text
+                    decoration: const InputDecoration(labelText: 'Nome do Alimento'),
+                    keyboardType: TextInputType.text,
                   ),
                   SizedBox(height: screenHeight * 0.015),
                   TextFormField(
                     controller: brandController,
                     decoration: const InputDecoration(labelText: 'Marca (opcional)'),
-                    keyboardType: TextInputType.text
+                    keyboardType: TextInputType.text,
                   ),
                   SizedBox(height: screenHeight * 0.015),
                   TextFormField(
@@ -143,7 +142,6 @@ class _AddFoodPageState extends State<AddFoodPage> {
     double fat = parseDouble(fatController.text);
     double carbs = parseDouble(carbsController.text);
 
-    // Adicione verificação para garantir que os campos obrigatórios estejam preenchidos
     if (name.isNotEmpty && calories > 0) {
       Map<String, dynamic> foodData = {
         'name': name,
@@ -167,7 +165,6 @@ class _AddFoodPageState extends State<AddFoodPage> {
         print('Error adding food: $e');
       }
     } else {
-      // Informe ao usuário que os campos obrigatórios devem ser preenchidos
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -190,10 +187,10 @@ class _AddFoodPageState extends State<AddFoodPage> {
 
   double parseDouble(String value) {
     try {
-      return double.parse(value.replaceAll(',', '.')); // Substitua vírgula por ponto, se necessário
+      return double.parse(value.replaceAll(',', '.')); 
     } catch (e) {
       print('Error parsing double: $e');
-      return 0.0; // Ou outro valor padrão caso o parse falhe
+      return 0.0; 
     }
   }
 }

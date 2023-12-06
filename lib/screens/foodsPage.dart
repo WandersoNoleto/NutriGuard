@@ -87,7 +87,8 @@ class FoodInfoPage extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.01),
                       child: FoodInfoCard(
                         name: foodData['name'] ?? '',
-                        brand: foodData['brand'] ?? '',
+                        calories: (foodData['calories']?? 0).toDouble(),
+                        brand: foodData['brand'] != null && foodData['brand'].toString().isNotEmpty ? foodData['brand'] : 'Genérico',
                         protein: (foodData['protein'] ?? 0).toDouble(),
                         fat: (foodData['fat'] ?? 0).toDouble(),
                         carbohydrates: (foodData['carbs'] ?? 0).toDouble(),

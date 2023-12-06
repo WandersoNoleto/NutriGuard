@@ -7,6 +7,7 @@ class FoodInfoCard extends StatelessWidget {
   final dynamic protein;
   final double fat;
   final double carbohydrates;
+  final double calories;
 
   const FoodInfoCard({
     Key? key,
@@ -15,6 +16,7 @@ class FoodInfoCard extends StatelessWidget {
     required this.protein,
     required this.fat,
     required this.carbohydrates,
+    required this.calories
   }) : super(key: key);
 
   @override
@@ -22,7 +24,7 @@ class FoodInfoCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12), // Valor ajustável conforme necessário
+        borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
@@ -33,18 +35,31 @@ class FoodInfoCard extends StatelessWidget {
         ],
       ),
       child: Card(
-        elevation: 0, // Define a elevação do Card como 0 para evitar sombras duplicadas
+        elevation: 0,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                name,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    name,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    '${calories.toString()} kcal',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.secondaryGreen,
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 8),
               Row(

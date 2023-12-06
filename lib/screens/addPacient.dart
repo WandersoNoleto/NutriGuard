@@ -214,10 +214,8 @@ class _AddPacientPageState extends State<AddPacientPage> {
           'phoneNumber': _phoneNumber,
         });
 
-        // Limpar o formulário após o salvamento
         _formKey.currentState?.reset();
 
-        // Exibir uma mensagem de sucesso ou navegar para outra tela, se necessário
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Paciente cadastrado com sucesso!'),
@@ -225,7 +223,6 @@ class _AddPacientPageState extends State<AddPacientPage> {
         );
       } catch (e) {
         print('Erro ao cadastrar paciente: $e');
-        // Exibir uma mensagem de erro, se necessário
       }
     }
   }
