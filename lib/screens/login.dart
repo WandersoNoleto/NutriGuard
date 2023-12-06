@@ -4,6 +4,8 @@ import 'package:nutri_guard/screens/register.dart';
 import 'package:nutri_guard/widgets/customButton.dart';
 import 'package:nutri_guard/screens/homePage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:nutri_guard/user_provider.dart';
+import 'package:provider/provider.dart';
 
 
 
@@ -25,6 +27,8 @@ class LoginPage extends StatelessWidget {
       );
 
       if (userCredential.user != null){
+        context.read<UserProvider>().setUser(userCredential.user);
+
         Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => HomePage()),

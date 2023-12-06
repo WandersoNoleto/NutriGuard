@@ -5,23 +5,26 @@ class ActionButton extends StatelessWidget {
   final String label;
   final IconData? icon;
   final VoidCallback? onPressed;
+  final double? width;
+  final double? height;
 
   const ActionButton({
     Key? key,
     required this.label,
     this.icon,
     this.onPressed,
+    this.width,
+    this.height,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-
     return GestureDetector(
       onTap: onPressed,
       child: Container(
         constraints: BoxConstraints(
-          minWidth: screenWidth * 0.35, // Largura mínima desejada
+          minWidth: width ?? double.infinity,
+          minHeight: height ?? 0, 
         ),
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
