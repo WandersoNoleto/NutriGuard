@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nutri_guard/colors/colors.dart';
 import 'package:nutri_guard/widgets/navbar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DietPrescriptionPage extends StatefulWidget {
   final String patientName;
@@ -21,7 +20,13 @@ class DietPrescriptionPage extends StatefulWidget {
 
 class _DietPrescriptionPageState extends State<DietPrescriptionPage> {
   TextEditingController objectiveController = TextEditingController();
-  bool isEditing = false;
+  bool isEditingObjective = false;
+  List<Meal> meals = [
+    Meal('Café da manhã'),
+    Meal('Almoço'),
+    Meal('Jantar'),
+    Meal('Ceia'),
+  ];
 
   @override
   void initState() {
@@ -55,7 +60,9 @@ class _DietPrescriptionPageState extends State<DietPrescriptionPage> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.075),
+          margin: EdgeInsets.symmetric(
+              horizontal: screenWidth * 0.05,
+              vertical: screenHeight * 0.075),
           padding: EdgeInsets.all(screenHeight * 0.018),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -65,7 +72,7 @@ class _DietPrescriptionPageState extends State<DietPrescriptionPage> {
                 color: Colors.grey.withOpacity(0.5),
                 spreadRadius: 2,
                 blurRadius: 5,
-                offset: Offset(0, 2), 
+                offset: Offset(0, 2),
               ),
             ],
           ),
@@ -76,7 +83,7 @@ class _DietPrescriptionPageState extends State<DietPrescriptionPage> {
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: AppColors.primaryGreen, 
+                  color: AppColors.primaryGreen,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(screenHeight * 0.015),
                     topRight: Radius.circular(screenHeight * 0.015),
@@ -110,19 +117,19 @@ class _DietPrescriptionPageState extends State<DietPrescriptionPage> {
                             children: [
                               TextFormField(
                                 controller: objectiveController,
-                                enabled: isEditing,
+                                enabled: isEditingObjective,
                                 decoration: InputDecoration(
                                   labelText: 'Objetivo',
                                 ),
                               ),
-                              if (isEditing)
+                              if (isEditingObjective)
                                 Positioned(
                                   right: 0,
                                   child: IconButton(
                                     icon: Icon(Icons.save),
                                     onPressed: () {
                                       setState(() {
-                                        isEditing = false;
+                                        isEditingObjective = false;
                                       });
                                     },
                                   ),
@@ -130,20 +137,29 @@ class _DietPrescriptionPageState extends State<DietPrescriptionPage> {
                             ],
                           ),
                         ),
-                        if (!isEditing)
+                        if (!isEditingObjective)
                           IconButton(
                             icon: Icon(Icons.edit),
                             onPressed: () {
                               setState(() {
-                                isEditing = true;
+                                isEditingObjective = true;
                               });
                             },
                           ),
                       ],
                     ),
-                    SizedBox(height: screenHeight * 0.018),
-                    Text('Calorias Totais: ${widget.totalCalories} kcal', style: TextStyle(fontSize: screenHeight * 0.018, fontWeight: FontWeight.w400, color: AppColors.textColor)),
-                    SizedBox(height: screenHeight * 0.018),
+                    SizedBox(
+                      height: screenHeight * 0.018,
+                    ),
+                    Text(
+                        'Calorias Totais: ${widget.totalCalories} kcal',
+                        style: TextStyle(
+                            fontSize: screenHeight * 0.018,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.textColor)),
+                    SizedBox(
+                      height: screenHeight * 0.018,
+                    ),
                   ],
                 ),
               ),
@@ -155,17 +171,14 @@ class _DietPrescriptionPageState extends State<DietPrescriptionPage> {
                 margin: EdgeInsets.only(top: screenHeight * 0.018),
                 padding: EdgeInsets.all(screenHeight * 0.018),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(screenHeight * 0.015),
+                  borderRadius:
+                      BorderRadius.circular(screenHeight * 0.015),
                 ),
                 child: Column(
                   children: [
-                    _buildMealCard('Café da manhã'),
-                    SizedBox(height: screenHeight * 0.01),
-                    _buildMealCard('Almoço'),
-                    SizedBox(height: screenHeight * 0.01),
-                    _buildMealCard('Jantar'),
-                    SizedBox(height: screenHeight * 0.01),
-                    _buildMealCard('Ceia'),
+                    for (int index = 0; index < meals.length; index++)
+                      _buildMealCard(meals[index], index),
+                    _buildAddMealButton(),
                   ],
                 ),
               ),
@@ -177,23 +190,81 @@ class _DietPrescriptionPageState extends State<DietPrescriptionPage> {
     );
   }
 
-  Widget _buildMealCard(String mealName) {
+  Widget _buildMealCard(Meal meal, int index) {
+    TextEditingController mealController =
+        TextEditingController(text: meal.name);
+    bool isEditingMeal = false;
+
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.only(bottom: 8.0),
+      margin: EdgeInsets.only(bottom: 6.0),
       decoration: BoxDecoration(
         color: AppColors.primaryGreen,
         borderRadius: BorderRadius.circular(15.0),
       ),
       padding: EdgeInsets.all(16.0),
-      child: Text(
-        mealName,
-        style: TextStyle(
-          fontSize: 18.0,
-          fontWeight: FontWeight.bold,
-          color: AppColors.white, 
-        ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Stack(
+              children: [
+                TextFormField(
+                  controller: mealController,
+                  enabled: isEditingMeal,
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.white,
+                  ),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Row(
+            children: [
+              IconButton(
+                icon: isEditingMeal ? Icon(Icons.save) : Icon(Icons.edit),
+                onPressed: () {
+                  setState(() {
+                    if (isEditingMeal) {
+                      meal.name = mealController.text;
+                    }
+                    isEditingMeal = !isEditingMeal;
+                  });
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  setState(() {
+                    meals.removeAt(index);
+                  });
+                },
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
+
+  Widget _buildAddMealButton() {
+    return ElevatedButton(
+      onPressed: () {
+        setState(() {
+          meals.add(Meal('Nova Refeição'));
+        });
+      },
+      child: Text('Adicionar Refeição'),
+    );
+  }
+}
+
+class Meal {
+  String name;
+
+  Meal(this.name);
 }
