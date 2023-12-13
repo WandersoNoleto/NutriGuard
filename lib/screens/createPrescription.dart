@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nutri_guard/colors/colors.dart';
 import 'package:nutri_guard/widgets/navbar.dart';
+import 'package:nutri_guard/widgets/mealCard.dart';
+import 'package:nutri_guard/widgets/customActionButton.dart'; 
+import 'package:nutri_guard/widgets/addFoodText.dart';
 
 class DietPrescriptionPage extends StatefulWidget {
   final String patientName;
@@ -79,7 +82,6 @@ class _DietPrescriptionPageState extends State<DietPrescriptionPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Parte acima da linha
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -120,6 +122,7 @@ class _DietPrescriptionPageState extends State<DietPrescriptionPage> {
                                 enabled: isEditingObjective,
                                 decoration: InputDecoration(
                                   labelText: 'Objetivo',
+                                  contentPadding: EdgeInsets.only(left: 8.0),
                                 ),
                               ),
                               if (isEditingObjective)
@@ -152,33 +155,49 @@ class _DietPrescriptionPageState extends State<DietPrescriptionPage> {
                       height: screenHeight * 0.018,
                     ),
                     Text(
-                        'Calorias Totais: ${widget.totalCalories} kcal',
-                        style: TextStyle(
-                            fontSize: screenHeight * 0.018,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.textColor)),
+                      'Calorias Totais: ${widget.totalCalories} kcal',
+                      style: TextStyle(
+                        fontSize: screenHeight * 0.018,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.textColor,
+                      ),
+                    ),
                     SizedBox(
                       height: screenHeight * 0.018,
                     ),
-                  ],
-                ),
-              ),
 
-              // Lista de refeições
-              SizedBox(height: screenHeight * 0.02),
-              Container(
-                width: double.infinity,
-                margin: EdgeInsets.only(top: screenHeight * 0.018),
-                padding: EdgeInsets.all(screenHeight * 0.018),
-                decoration: BoxDecoration(
-                  borderRadius:
-                      BorderRadius.circular(screenHeight * 0.015),
-                ),
-                child: Column(
-                  children: [
-                    for (int index = 0; index < meals.length; index++)
-                      _buildMealCard(meals[index], index),
-                    _buildAddMealButton(),
+                     for (int index = 0; index < meals.length; index++)
+                      Column(
+                        children: [
+                          MealCard(
+                            key: Key('meal_$index'), // Adiciona uma chave única para cada MealCard
+                            label: meals[index].name,
+                            onDelete: () {
+                              // Remove a refeição correspondente e atualiza o estado
+                              setState(() {
+                                meals.removeAt(index);
+                              });
+                            },
+                          ),
+                          AddFoodText(
+                            mealName: meals[index].name,
+                            onTap: () {
+                            },
+                          ),
+                        ],
+                      ),
+                      
+    
+                    SizedBox(height: screenHeight * 0.018),
+
+                    ActionButton(
+                      label: 'Adicionar Refeição',
+                      onPressed: () {
+                        setState(() {
+                          meals.add(Meal('Nova Refeição'));
+                        });
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -186,79 +205,6 @@ class _DietPrescriptionPageState extends State<DietPrescriptionPage> {
           ),
         ),
       ),
-      bottomNavigationBar: const Navbar(),
-    );
-  }
-
-  Widget _buildMealCard(Meal meal, int index) {
-    TextEditingController mealController =
-        TextEditingController(text: meal.name);
-    bool isEditingMeal = false;
-
-    return Container(
-      width: double.infinity,
-      margin: EdgeInsets.only(bottom: 6.0),
-      decoration: BoxDecoration(
-        color: AppColors.primaryGreen,
-        borderRadius: BorderRadius.circular(15.0),
-      ),
-      padding: EdgeInsets.all(16.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: Stack(
-              children: [
-                TextFormField(
-                  controller: mealController,
-                  enabled: isEditingMeal,
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.white,
-                  ),
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Row(
-            children: [
-              IconButton(
-                icon: isEditingMeal ? Icon(Icons.save) : Icon(Icons.edit),
-                onPressed: () {
-                  setState(() {
-                    if (isEditingMeal) {
-                      meal.name = mealController.text;
-                    }
-                    isEditingMeal = !isEditingMeal;
-                  });
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.close),
-                onPressed: () {
-                  setState(() {
-                    meals.removeAt(index);
-                  });
-                },
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAddMealButton() {
-    return ElevatedButton(
-      onPressed: () {
-        setState(() {
-          meals.add(Meal('Nova Refeição'));
-        });
-      },
-      child: Text('Adicionar Refeição'),
     );
   }
 }
