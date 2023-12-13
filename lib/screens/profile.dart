@@ -85,7 +85,7 @@ class _ProfilePageState extends State<ProfilePage> {
             onPressed: () {
               setState(() {
                 if (_isEditing) {
-                  _saveUserData(); // Salvar dados se estiver em modo de edição
+                  _saveUserData();
                 }
                 _isEditing = !_isEditing;
               });
@@ -123,6 +123,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     onPressed: () {
                       _signOut(context);
                     },
+                  ),
+                  Text(
+                    'Versão 1.10.2',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
                 ],
               ),

@@ -60,10 +60,8 @@ class FoodInfoPage extends StatelessWidget {
             ),
           ),
 
-          // Lista de cartões de informações de alimentos do Firebase
           Expanded(
             child: FutureBuilder<QuerySnapshot>(
-              // Substitua 'foods' pelo nome da sua coleção no Firebase
               future: FirebaseFirestore.instance.collection('foods').get(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {

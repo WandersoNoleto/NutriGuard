@@ -167,7 +167,6 @@ class _AddFoodPageState extends State<AddFoodPage> {
         print('Error adding food: $e');
       }
     } else {
-      // Informe ao usuário que os campos obrigatórios devem ser preenchidos
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -190,10 +189,10 @@ class _AddFoodPageState extends State<AddFoodPage> {
 
   double parseDouble(String value) {
     try {
-      return double.parse(value.replaceAll(',', '.')); // Substitua vírgula por ponto, se necessário
+      return double.parse(value.replaceAll(',', '.'));
     } catch (e) {
       print('Error parsing double: $e');
-      return 0.0; // Ou outro valor padrão caso o parse falhe
+      return 0.0;
     }
   }
 }

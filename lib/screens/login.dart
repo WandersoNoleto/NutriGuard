@@ -6,7 +6,7 @@ import 'package:nutri_guard/screens/homePage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:nutri_guard/user_provider.dart';
 import 'package:provider/provider.dart';
-
+import 'package:nutri_guard/screens/forgotPassword.dart';
 
 
 
@@ -34,7 +34,6 @@ class LoginPage extends StatelessWidget {
         MaterialPageRoute(builder: (context) => HomePage()),
       );
     } else {
-      // Adicione lógica para tratar falha na autenticação (usuário não encontrado, senha incorreta, etc.)
       print('AuthFail: Invalid Username or password');
     }
     } catch (e) {
@@ -100,9 +99,9 @@ class LoginPage extends StatelessWidget {
                     focusColor: AppColors.white,
                   ),
                   style: TextStyle(
-                    color: AppColors.white, // Define a cor do texto digitado
+                    color: AppColors.white,
                   ),
-                  cursorColor: AppColors.white, // Define a cor do cursor
+                  cursorColor: AppColors.white, 
                 ),
 
               const SizedBox(height: 20),
@@ -124,10 +123,27 @@ class LoginPage extends StatelessWidget {
                     focusColor: AppColors.white,
                   ),
                   style: TextStyle(
-                    color: AppColors.white, // Define a cor do texto digitado
+                    color: AppColors.white,
                   ),
-                  cursorColor: AppColors.white, // Define a cor do cursor
+                  cursorColor: AppColors.white, 
                 ),
+                const SizedBox(height: 20),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChangePasswordPage()),
+                  );
+                    },
+                    child: const Text(
+                      'Esqueceu sua senha?',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
 
               const SizedBox(height: 60),
               Button(

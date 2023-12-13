@@ -32,7 +32,6 @@ class PrescriptionHistoryPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          // Conteúdo principal
           Expanded(
             child: ListView.builder(
               itemCount: 5, 

@@ -4,6 +4,7 @@ import 'package:nutri_guard/widgets/customActionButton.dart';
 import 'package:nutri_guard/widgets/navbar.dart';
 import 'package:nutri_guard/screens/historyPage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:nutri_guard/screens/createPrescription.dart';
 
 class PacientDetailsPage extends StatelessWidget {
   final QueryDocumentSnapshot<Object?> pacientSnapshot;
@@ -110,7 +111,12 @@ class PacientDetailsPage extends StatelessWidget {
                 child: ActionButton(
                   label: 'Prescrever Dieta',
                   onPressed: () {
-                    // Lógica para o botão "Prescrever Dieta"
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DietPrescriptionPage(patientName: patientName, objective: '', totalCalories: 0),
+                      ),
+                    );
                   },
                 ),
               ),
