@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:nutri_guard/colors/colors.dart';
+import 'package:nutri_guard/widgets/customActionButton.dart';
 import 'package:nutri_guard/widgets/navbar.dart';
 import 'package:nutri_guard/widgets/mealCard.dart';
-import 'package:nutri_guard/widgets/customActionButton.dart'; 
 import 'package:nutri_guard/widgets/addFoodText.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:nutri_guard/widgets/searchBar.dart';
 
 class DietPrescriptionPage extends StatefulWidget {
   final String patientName;
@@ -37,6 +39,114 @@ class _DietPrescriptionPageState extends State<DietPrescriptionPage> {
     objectiveController.text = widget.objective;
   }
 
+void _openFoodModal(int mealIndex) {
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext context) {
+      return Container(
+        color: Colors.white, // Adiciona esta linha para definir o fundo como branco
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: AppColors.secondaryGreen,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text(
+                    'Escolha um Alimento',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 8.0),
+            SearchBox(),
+            Expanded(
+              child: FutureBuilder<QuerySnapshot>(
+                future: FirebaseFirestore.instance.collection('foods').get(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Erro: ${snapshot.error}'),
+                    );
+                  }
+
+                  var foodDocuments = snapshot.data?.docs ?? [];
+                  return ListView.builder(
+                    itemCount: foodDocuments.length,
+                    itemBuilder: (context, index) {
+                      var foodData = foodDocuments[index].data() as Map<String, dynamic>;
+                      return Column(
+                        children: [
+                          ListTile(
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  foodData['name'] ?? '',
+                                  style: TextStyle(
+                                    color: AppColors.primaryGreen,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  '${foodData['calories'] ?? 0} Cal',
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: AppColors.primaryGreen,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            subtitle: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Marca: ${foodData['brand'] != null && foodData['brand'].toString().isNotEmpty ? foodData['brand'] : 'Genérico'}',
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: AppColors.primaryGreen,
+                                  ),
+                                ),
+                                Text(
+                                  'P: ${foodData['protein'] ?? 0}g  G: ${foodData['fat'] ?? 0}g  C: ${foodData['carbs'] ?? 0}g',
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: AppColors.primaryGreen,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Divider(
+                            color: Colors.grey.withOpacity(0.5),
+                            thickness: 1.0,
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -64,8 +174,9 @@ class _DietPrescriptionPageState extends State<DietPrescriptionPage> {
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.symmetric(
-              horizontal: screenWidth * 0.05,
-              vertical: screenHeight * 0.075),
+            horizontal: screenWidth * 0.05,
+            vertical: screenHeight * 0.075,
+          ),
           padding: EdgeInsets.all(screenHeight * 0.018),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -166,14 +277,13 @@ class _DietPrescriptionPageState extends State<DietPrescriptionPage> {
                       height: screenHeight * 0.018,
                     ),
 
-                     for (int index = 0; index < meals.length; index++)
+                    for (int index = 0; index < meals.length; index++)
                       Column(
                         children: [
                           MealCard(
-                            key: Key('meal_$index'), // Adiciona uma chave única para cada MealCard
+                            key: Key('meal_$index'),
                             label: meals[index].name,
                             onDelete: () {
-                              // Remove a refeição correspondente e atualiza o estado
                               setState(() {
                                 meals.removeAt(index);
                               });
@@ -182,12 +292,12 @@ class _DietPrescriptionPageState extends State<DietPrescriptionPage> {
                           AddFoodText(
                             mealName: meals[index].name,
                             onTap: () {
+                              _openFoodModal(index);
                             },
                           ),
                         ],
                       ),
-                      
-    
+
                     SizedBox(height: screenHeight * 0.018),
 
                     ActionButton(
@@ -211,6 +321,27 @@ class _DietPrescriptionPageState extends State<DietPrescriptionPage> {
 
 class Meal {
   String name;
+  List<Food> foods;
 
-  Meal(this.name);
+  Meal(this.name) : foods = [];
+
+  void addFood(Food food) {
+    foods.add(food);
+  }
+}
+
+class Food {
+  String name;
+  double calories;
+  double protein;
+  double fat;
+  double carbohydrates;
+
+  Food({
+    required this.name,
+    required this.calories,
+    required this.protein,
+    required this.fat,
+    required this.carbohydrates,
+  });
 }
